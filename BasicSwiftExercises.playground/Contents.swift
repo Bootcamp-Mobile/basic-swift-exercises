@@ -446,14 +446,7 @@ let teachersMore1Bootcamp: [(name: String, count: Int)] = bootcampTeachers.compa
 teachersMore1Bootcamp.forEach { print("Profesor \($0.name) \($0.count) bootcamps") }
 
 
-print()
-print("****** 10.10 ******")
-// Escribir en consola el nombre de cada estudiante y los de sus profesores
-/* Ejemplo
- Alumno Belén, 2 profesores:
- David
- Sara
- */
+// ************* Functions *************
 
 /// Filtra la lista de **bootcamps** recibida en base al nombre del **student** y devuelve los bootcamps
 /// que contengan al **student**
@@ -472,6 +465,17 @@ func contains(bootcamp: Bootcamp, student: Student) -> Bool {
 func areStudentNameEquals(student: Student, other: Student) -> Bool {
     return student.name.compare(other.name) == .orderedSame
 }
+
+
+
+print()
+print("****** 10.10 ******")
+// Escribir en consola el nombre de cada estudiante y los de sus profesores
+/* Ejemplo
+ Alumno Belén, 2 profesores:
+ David
+ Sara
+ */
 
 let studentsTeachersBootcamp: [(name: String, bootcamps: [Bootcamp])] = bootcampStudents.compactMap { student in
     // Filter devuelve una lista con los valores de bootcamps que cumplen la condición
@@ -506,14 +510,21 @@ print("****** 10.11 ******")
 // bootcampsTeacher
 // 2.- Ir uno a uno por cada profesor de la lista
 // Ejemplo: profesor = "Juan"
-// 3.- Ver cual es la lista de bootcamps
-// bootcamps
-// 4.- Comprobar cuales son los bootcamps de cada profesor
-// 4.1.- Ir uno a uno por cada bootcamp
-// 4.1.1.- Comprobar si mi profesor está en la lista de profesores del bootcamp
-// 4.1.2- Ir uno a uno por cada profesor del bootcamp
-// 4.1.3.- Comprobar si cada profesor del bootcamp es igual a mi profesor ("Juan")
-// 4.1.3.1.- Comparar si el nombre del profesor del bootcamp es igual al de mi profesor ("Juan")
+bootcampTeachers.forEach { teacher in
+    // 3.- Ver cual es la lista de bootcamps
+    // bootcamps
+    // 4.- Comprobar cuales son los bootcamps de cada profesor
+    // 4.1.- Ir uno a uno por cada bootcamp
+    let teacherBootcampList = bootcamps.filter { bootcamp in
+        // 4.1.1.- Comprobar si mi profesor está en la lista de profesores del bootcamp
+        // 4.1.2- Ir uno a uno por cada profesor del bootcamp
+        return bootcamp.teachers.contains { bootcampTeacher in
+            // 4.1.3.- Comprobar si cada profesor del bootcamp es igual a mi profesor ("Juan")
+            // 4.1.3.1.- Comparar si el nombre del profesor del bootcamp es igual al de mi profesor ("Juan")
+            return bootcampTeacher.name.compare(teacher.name) == .orderedSame
+        }
+    }
+}
 
 // RESULTADO: Lista de bootcamps de cada profesor
 // Ejemplo: teacherBootcampList
