@@ -37,14 +37,15 @@ class Teacher: CustomStringConvertible {
     // Computed properties
     // Variable 'description' se utiliza porque obliga el protocolo 'CustomStringConvertible'
     var description: String {
-        return """
-        "teacher": {
-            "name": \(name),
-            "lastname": \(lastname),
-            "email": \(email),
-            "age": \(age ?? -1)
-        }
-        """
+        return name
+//        return """
+//        "teacher": {
+//            "name": \(name),
+//            "lastname": \(lastname),
+//            "email": \(email),
+//            "age": \(age ?? -1)
+//        }
+//        """
     }
     
     var fullName: String {
@@ -503,7 +504,6 @@ print("****** 10.11 ******")
  Alex
  */
 
-
 // OBJETIVO: Conseguir la lista de bootcamps de cada profesor
 
 // 1.- Ver cual es la lista de profesores
@@ -527,7 +527,6 @@ bootcampTeachers.forEach { teacher in
 
     // RESULTADO: Lista de bootcamps de cada profesor
     // teacherBootcampList
-
 
     // OBJETIVO: Conseguir la lista de alumnos de cada bootcamp de cada profesor
     
@@ -614,6 +613,12 @@ print("****** 10.14 ******")
  ....
  */
 
+bootcamps.forEach { bootcamp in
+    let studentOldest = bootcamp.students.sorted { ($0.age ?? -1) > ($1.age ?? -1) }.first
+    print("\(bootcamp.name), alumno \(studentOldest?.name ?? "No hay alumnos"), edad \(studentOldest?.age ?? -1)")
+}
+
+
 print()
 print("****** 10.15 ******")
 // Escribir en consola el nombre del alumno con menor edad de cada bootcamp
@@ -622,6 +627,12 @@ print("****** 10.15 ******")
  Bootcamp Fullstack, alumno Elena, edad 21
  ....
  */
+
+bootcamps.forEach { bootcamp in
+    let studentOldest = bootcamp.students.filter { $0.age != nil }.sorted { ($0.age ?? -1) < ($1.age ?? -1) }.first
+    print("\(bootcamp.name), alumno \(studentOldest?.name ?? "No hay alumnos"), edad \(studentOldest?.age ?? -1)")
+}
+
 
 print()
 print("****** 10.16 ******")
@@ -632,6 +643,17 @@ print("****** 10.16 ******")
  ....
  */
 
+bootcamps.forEach { bootcamp in
+    let studentOldest = bootcamp.students.sorted { ($0.age ?? -1) > ($1.age ?? -1) }.first
+    
+    bootcamp.teachers.forEach { teacher in
+        if((teacher.age ?? -1) > (studentOldest?.age ?? -1)) {
+            print("\(bootcamp.name), profesor \(teacher.name), edad \(teacher.age ?? -1)")
+        }
+    }
+}
+
+
 print()
 print("****** 10.17 ******")
 // Escribir en consola el nombre de los profesores de cada bootcamp que sean menores
@@ -641,17 +663,35 @@ print("****** 10.17 ******")
  ....
  */
 
+bootcamps.forEach { bootcamp in
+    let studentYoungest = bootcamp.students.filter { $0.age != nil }.sorted { ($0.age ?? -1) < ($1.age ?? -1) }.first
+    
+    bootcamp.teachers.forEach { teacher in
+        if((teacher.age ?? -1) < (studentYoungest?.age ?? -1)) {
+            print("\(bootcamp.name), profesor \(teacher.name), edad \(teacher.age ?? -1)")
+        }
+    }
+}
+
 
 print()
 print("****** 10.18 ******")
 // Escribir en consola el nombre de cada alumno, el número de sus bootcamps y el nombre de cada bootcamp
 /* Ejemplo
  Alumno Alex, 2 bootcamps
- Bootcamps:
- Mobile
- Fullstack
+ Bootcamp Mobile
+ Bootcamp Fullstack
  ....
  */
+
+bootcampStudents.forEach { student in
+    // Podemos utilizar la función: let studentBootcamps = filter(bootcamps: bootcamps, by: student)
+    let studentBootcamps = bootcamps.filter { $0.students.contains { $0.name.compare(student.name) == .orderedSame } }
+    
+    print("Alumno \(student.name), \(studentBootcamps.count) bootcamps:")
+    studentBootcamps.forEach { print("\($0.name)") }
+    print()
+}
 
 
 print()
@@ -665,15 +705,32 @@ print("****** 10.19 ******")
  ....
  */
 
+bootcampTeachers.forEach { teacher in
+    let teacherBootcamps = bootcamps.filter { $0.teachers.contains { $0.name.compare(teacher.name) == .orderedSame } }
+    
+    print("Profesor \(teacher.name), \(teacherBootcamps.count) bootcamps:")
+    teacherBootcamps.forEach { print("\($0.name)") }
+    print()
+}
+
 
 print()
 print("****** 10.20 ******")
 // Escribir en consola el nombre de cada alumno, el número de sus bootcamps, el nombre de cada bootcamp,
-// y el nombre del profesor de cada bootmcap
+// y el nombre de cada profesor de cada bootcamp
 /* Ejemplo
  Alumno Adrián, 2 bootcamps
- Bootcamps:
- Mobile, profesor David
- Fullstack, profesor Carlos
+ Bootcamp Mobile, profesor [David]
+ Bootcamp Fullstack, profesor [Carlos, Sara]
  ....
  */
+
+bootcampStudents.forEach { student in
+    // Utilizamos la función filter, nos devuelve una lista de bootcamps
+    // filtrada por que contengan al 'student'
+    let studentBootcamps = filter(bootcamps: bootcamps, by: student)
+    
+    print("Alumno \(student.name), \(studentBootcamps.count) bootcamps:")
+    studentBootcamps.forEach { print("\($0.name), profesores \($0.teachers)") }
+    print()
+}
