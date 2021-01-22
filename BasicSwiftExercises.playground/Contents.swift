@@ -560,15 +560,6 @@ bootcampTeachers.forEach { teacher in
     print()
 }
 
-/* Ejemplo
- Profesor David, 3 alumnos:
- Belén
- Miguel
- Alex
- */
-
-
-
 
 print()
 print("****** 10.12 ******")
@@ -579,6 +570,19 @@ print("****** 10.12 ******")
  ....
  */
 
+// 1.- Ir uno a uno por la lista de alumnos
+// bootcampStudents
+// 2.- Quedarme con los alumnos que la edad no sea vacía
+let studentsWithAge = bootcampStudents.filter { student in
+    // 2.1.- Comparar por cada alumno si la edad es diferente de vacío
+    return student.age != nil
+}
+
+// 3.- Ordenar la lista de alumnos por la edad
+let studentsWithAgeSorted = studentsWithAge.sorted { ($0.age ?? 0) > ($1.age ?? 0) }
+studentsWithAgeSorted.forEach { print("Alumno \($0.name), edad \($0.age ?? 0)") }
+
+
 print()
 print("****** 10.13 ******")
 // Escribir en consola el nombre de cada profesor ordenados por la edad del profesor
@@ -587,6 +591,19 @@ print("****** 10.13 ******")
  Profesor Carlos, edad 20
  ....
  */
+
+// 1.- Ir uno a uno por la lista de profesores
+// bootcampTeachers
+// 2.- Quedarme con los profesores que la edad no sea vacía
+let teachersWithAge = bootcampTeachers.filter { teacher in
+    // 2.1.- Comparar por cada profesor si la edad es diferente de vacío
+    return teacher.age != nil
+}
+
+// 3.- Ordenar la lista de profesores por la edad
+let teachersWithAgeSorted = teachersWithAge.sorted { ($0.age ?? 0) > ($1.age ?? 0) }
+teachersWithAgeSorted.forEach { print("Profesor \($0.name), edad \($0.age ?? 0)") }
+
 
 print()
 print("****** 10.14 ******")
