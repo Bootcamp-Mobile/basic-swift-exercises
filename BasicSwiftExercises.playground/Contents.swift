@@ -524,25 +524,49 @@ bootcampTeachers.forEach { teacher in
             return bootcampTeacher.name.compare(teacher.name) == .orderedSame
         }
     }
+
+    // RESULTADO: Lista de bootcamps de cada profesor
+    // teacherBootcampList
+
+
+    // OBJETIVO: Conseguir la lista de alumnos de cada bootcamp de cada profesor
+    
+    // 5.- Ver cual es la lista de todos los estudiantes
+    // 6.- Ir uno a uno por cada estudiante de la lista
+    let teacherStudentsList = bootcampStudents.filter { student in
+        // 6.1.- Comprobar si mi alumno existe en la lista 'teacherBootcampList'
+        // 6.1.1.- Ir uno a uno por cada bootcamp de 'teacherBootcampList'
+        
+        // Podríamos utilizar la función que ya creamos para filtrar una lista de
+        // bootcamps en base a un student
+        // return filter(bootcamps: teacherBootcampList, by: student).count > 0
+
+        return teacherBootcampList.contains { teacherBootcamp in
+            // 6.1.1.1.- Comprobar si mi estudiante está en la lista de estudiantes del bootcamp
+            // 6.1.1.2.- Ir uno a uno por la lista de estudiantes del bootcamp
+            return teacherBootcamp.students.contains { teacherBootcampStudent in
+                // 6.1.1.2.1- Comprobar si el alumno del bootcamp es igual a mi estudiante
+                // 6.1.1.2.2- Comparar si el nombre del alumno del bootcamp es igual al nombre del estudiante
+                return teacherBootcampStudent.name.compare(student.name) == .orderedSame
+            }
+        }
+    }
+    
+    // RESULTADO: Lista de alumnos del profesor
+    // teacherStudentsList
+    
+    print("Profesor \(teacher.name), \(teacherStudentsList.count) alumnos:")
+    teacherStudentsList.forEach { print($0.name) }
+    print()
 }
 
-// RESULTADO: Lista de bootcamps de cada profesor
-// Ejemplo: teacherBootcampList
+/* Ejemplo
+ Profesor David, 3 alumnos:
+ Belén
+ Miguel
+ Alex
+ */
 
-
-// OBJETIVO: Conseguir la lista de alumnos de cada bootcamp de cada profesor
-
-// 5.- Ver cual es la lista de todos los estudiantes
-// bootcampsStudents
-// 6.- Ir uno a uno por cada estudiante de la lista
-// 6.1.- Comprobar si mi alumno existe en la lista 'teacherBootcampList'
-// 6.1.1.- Ir uno a uno por cada bootcamp de 'teacherBootcampList'
-// 6.1.1.1.- Comprobar si mi estudiante está en la lista de estudiantes del bootcamp
-// 6.1.1.2.- Ir uno a uno por la lista de estudiantes del bootcamp
-// 6.1.1.2.1- Comprobar si el alumno del bootcamp es igual a mi estudiante
-// 6.1.1.2.2- Comparar si el nombre del alumno del bootcamp es igual al nombre del estudiante
-
-// RESULTADO: Lista de alumnos del profesor
 
 
 
