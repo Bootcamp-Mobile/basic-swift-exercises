@@ -1,38 +1,44 @@
 import UIKit
 
 // ************* Classes *************
-
-// Declaración clase Student
-class Student {
-    // Propiedades de la clase Student
-    var name: String
-    var lastname: String
+class Person {
+    var name: String = ""
+    var lastname: String = ""
     var age: Int?
-    var address: String?
-    var email: String
-    var phone: String?
     
     // Computed property
     var fullName: String {
         return "\(name) \(lastname)"
     }
-
-    // Constructor o inicializador de la clase Student
-    init(name: String = "", lastname: String = "", email: String = "", age: Int? = nil, address: String = "", phone: String = "") {
+    
+    init(name: String = "", lastname: String = "", age: Int? = nil) {
         self.name = name
         self.lastname = lastname
-        self.email = email
         self.age = age
-        self.address = address
-        self.phone = phone
     }
 }
 
-class Teacher: CustomStringConvertible {
-    var name: String
-    var lastname: String
+// Declaración clase Student
+class Student: Person {
+    // Propiedades de la clase Student
+    var address: String?
     var email: String
-    var age: Int?
+    var phone: String?
+    
+    // Constructor o inicializador de la clase Student
+    init(name: String = "", lastname: String = "", email: String = "", age: Int? = nil, address: String = "", phone: String = "") {
+        self.email = email
+        self.address = address
+        self.phone = phone
+
+        super.init(name: name,
+                   lastname: lastname,
+                   age: age)
+    }
+}
+
+class Teacher: Person, CustomStringConvertible {
+    var email: String
     
     // Computed properties
     // Variable 'description' se utiliza porque obliga el protocolo 'CustomStringConvertible'
@@ -48,15 +54,12 @@ class Teacher: CustomStringConvertible {
 //        """
     }
     
-    var fullName: String {
-        return "\(name) \(lastname)"
-    }
-    
     init(name: String = "", lastname: String = "", email: String = "", age: Int? = nil) {
-        self.name = name
-        self.lastname = lastname
         self.email = email
-        self.age = age
+
+        super.init(name: name,
+                   lastname: lastname,
+                   age: age)
     }
 }
 
@@ -659,7 +662,7 @@ print("****** 10.17 ******")
 // Escribir en consola el nombre de los profesores de cada bootcamp que sean menores
 // que todos sus alumnos
 /* Ejemplo
- Bootcamp Mobile, profesor David, edad 20
+ Bootcamp Mobile, profesor Carlos, edad 20
  ....
  */
 
@@ -704,7 +707,6 @@ print("****** 10.19 ******")
  Fullstack
  ....
  */
-
 bootcampTeachers.forEach { teacher in
     let teacherBootcamps = bootcamps.filter { $0.teachers.contains { $0.name.compare(teacher.name) == .orderedSame } }
     
